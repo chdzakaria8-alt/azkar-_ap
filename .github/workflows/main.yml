@@ -7,10 +7,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Get Buildozer Action
-      uses: Arustul/buildozer-action@v3
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
-        buildozer_version: stable
+        python-version: '3.11'
+
+    - name: Install Buildozer dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev tk-dev libgdbm-compat-dev libreoffice-dev libmpdec-dev
+        pip install --upgrade pip
+        pip install buildozer cython virtualenv
+
+    - name: Build with Buildozer
+      run: |
+        mkdir -p bin
+        export FORCE_BUILDOZER_ROOT=1
+        buildozer android debug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
