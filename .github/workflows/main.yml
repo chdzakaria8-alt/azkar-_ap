@@ -23,6 +23,11 @@ jobs:
       run: |
         mkdir -p bin
         export FORCE_BUILDOZER_ROOT=1
+        
+        # أمر سحري للموافقة الآلية على كل رخص أندرويد SDK
+        mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
+        echo -e "\n241a150e7190064bec0f17c9429509a340114597\n1ee7733563f7438288aeb4e2ed4dca1c23132bc3\n8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb74bf62295022c3465d\n2f4c55d261174122d9b35b2111d6d5ef104a080b\nc10a5666b52111b113a113a113a113a113a113a1" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
+        
         buildozer android debug
 
     - name: Upload APK Artifact
@@ -30,4 +35,5 @@ jobs:
       with:
         name: Azkar-App-APK
         path: bin/*.apk
+
 
